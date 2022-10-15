@@ -33,3 +33,11 @@ npm run build
 ```sh
 npm run lint
 ```
+
+
+CSS con
+Bootstrap
+
+Validación con Supabase
+
+

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <navBar> </navBar>
+<NavBar></NavBar>
   </section>
 </template>
 
@@ -9,7 +9,7 @@ import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import { useUserStore } from "./stores/user.js";
-import navBar from "./components/NavBar.vue";
+import NavBar from "./components/NavBar.vue";
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -23,11 +23,11 @@ onMounted(async () => {
       console.log("No estás logeado");
       await userStore.signUp("claudiamurall@gmail.com", "password");
       console.log(user.value);
-      router.push({ path: "/auth" });
+      router.push({ path: "/signin" });
     } else {
       console.log("Estás logeado");
       // continue to dashboard
-      router.push({ path: "/" });
+      router.push({ path: "/home" });
     }
   } catch (e) {
     console.log(e);
@@ -37,10 +37,10 @@ onMounted(async () => {
 
 
 //USER SIGNUP - SUPABASE (PENDIENTE DE COLOCAR)
-/* let { user, error } = await supabase.auth.signUp({
+/*let { user, error } = await supabase.auth.signUp({
   email: 'someone@email.com',
   password: 'duPlpllykWlVZlEpIWNc'
-}) */
+}) 
 
 
 //USER LOGIN - SUPABASE (PENDIENTE DE COLOCAR)
