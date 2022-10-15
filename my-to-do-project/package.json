@@ -8,16 +8,20 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "pinia": "^2.0.21",
-    "vue": "^3.2.38",
+    "@supabase/supabase-js": "^1.35.7",
+    "bootstrap": "^5.2.2",
+    "material-icons": "^1.12.0",
+    "pinia": "^2.0.22",
+    "pinia-plugin-persist": "^0.0.93",
+    "vue": "^3.2.40",
     "vue-router": "^4.1.5"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.4",
     "@vitejs/plugin-vue": "^3.0.3",
     "@vue/eslint-config-prettier": "^7.0.0",
-    "eslint": "^8.22.0",
-    "eslint-plugin-vue": "^9.3.0",
+    "eslint": "^8.25.0",
+    "eslint-plugin-vue": "^9.6.0",
     "prettier": "^2.7.1",
     "vite": "^3.0.9"
   }

@@ -1,93 +1,66 @@
-<script setup>
-import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
-</script>
-
-
-PROVA 
 <template>
-  <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="@/assets/logo.svg"
-      width="125"
-      height="125"
-    />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <section>
+    <navBar> </navBar>
+  </section>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
+<script setup>
+import { onMounted } from "vue";
+import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
+import { useUserStore } from "./stores/user.js";
+import navBar from "./components/NavBar.vue";
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+const router = useRouter();
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+onMounted(async () => {
+  try {
+    await userStore.fetchUser(); // here we call fetch user
+    console.log(user.value);
+    if (!user.value) {
+      console.log("No estás logeado");
+      await userStore.signUp("claudiamurall@gmail.com", "password");
+      console.log(user.value);
+      router.push({ path: "/auth" });
+    } else {
+      console.log("Estás logeado");
+      // continue to dashboard
+      router.push({ path: "/" });
+    }
+  } catch (e) {
+    console.log(e);
   }
+});
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
 
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
+//USER SIGNUP - SUPABASE (PENDIENTE DE COLOCAR)
+/* let { user, error } = await supabase.auth.signUp({
+  email: 'someone@email.com',
+  password: 'duPlpllykWlVZlEpIWNc'
+}) */
 
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+
+//USER LOGIN - SUPABASE (PENDIENTE DE COLOCAR)
+/*let { user, error } = await supabase.auth.signInWithPassword({
+  email: 'someone@email.com',
+  password: 'duPlpllykWlVZlEpIWNc'
+}) */
+
+
+// PASSWORD RECOVERY - SUPABASE (PENDIENTE DE COLOCAR)
+//let { data, error } = await supabase.auth.api.resetPasswordForEmail(email)
+
+
+//USER LOGOUT - SUPABASE (PENDIENTE DE COLOCAR)
+//let { error } = await supabase.auth.signOut()
+
+</script>
+
+<style>
+html {
+  font-family: "Roboto", sans-serif;
 }
 </style>
