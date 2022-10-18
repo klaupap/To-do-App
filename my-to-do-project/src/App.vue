@@ -1,6 +1,6 @@
 <template>
   <section>
-<NavBar></NavBar>
+    <NavBar></NavBar>
   </section>
 </template>
 
@@ -34,29 +34,8 @@ onMounted(async () => {
   }
 });
 
-
-
-//USER SIGNUP - SUPABASE (PENDIENTE DE COLOCAR)
-/*let { user, error } = await supabase.auth.signUp({
-  email: 'someone@email.com',
-  password: 'duPlpllykWlVZlEpIWNc'
-}) 
-
-
-//USER LOGIN - SUPABASE (PENDIENTE DE COLOCAR)
-/*let { user, error } = await supabase.auth.signInWithPassword({
-  email: 'someone@email.com',
-  password: 'duPlpllykWlVZlEpIWNc'
-}) */
-
-
 // PASSWORD RECOVERY - SUPABASE (PENDIENTE DE COLOCAR)
 //let { data, error } = await supabase.auth.api.resetPasswordForEmail(email)
-
-
-//USER LOGOUT - SUPABASE (PENDIENTE DE COLOCAR)
-//let { error } = await supabase.auth.signOut()
-
 </script>
 
 <style>

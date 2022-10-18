@@ -46,12 +46,14 @@
             />
           </div>
           <div class="text-center">
-            <!-- Pendiente el sign in-->
-            <button type="submit" class="btn btn-primary">Register</button>
+            <!-- Sign up-->
+            <button @click="signUp" type="submit" class="btn btn-primary">
+              Register
+            </button>
           </div>
         </form>
         <div class="text-center">
-          <!-- Pendiente el sign up -->
+          <!-- Sign in -->
           <p>
             Already have an account?
             <router-link to="/signin"> Sign In </router-link>

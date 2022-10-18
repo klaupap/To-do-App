@@ -1,3 +1,5 @@
+<!-- No funciona el sign in. Revisar-->
+
 <template>
   <div class="container-fluid">
     <div class="row align-items-center">
@@ -10,11 +12,8 @@
         <p>Are you ready to do your best?</p>
 
         <!-- Mensaje error -->
-        <div v-if="errorMsg">
-          <p>{{ errorMsg }}</p>
-        </div>
-        <form>
-          <!-- Pendiente la validación email-->
+        <div v-if="errorMsg"></div>
+        <form @submit.prevent="signIn">
           <div class="mb-3">
             <input
               type="email"
@@ -26,7 +25,6 @@
               v-model="email"
             />
           </div>
-          <!-- Pendiente la validación password-->
           <div class="mb-3">
             <input
               type="password"
@@ -39,11 +37,12 @@
           </div>
           <div class="text-center">
             <!-- Pendiente el sign in-->
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button @click="signIn" type="submit" class="btn btn-primary">
+              Login
+            </button>
           </div>
         </form>
         <div class="text-center">
-          <!-- Pendiente el sign up -->
           <p>
             Don't have an account?
             <router-link to="/signup"> Register </router-link>
@@ -57,6 +56,8 @@
 
 <script>
 import { ref } from "vue";
+import { supabase } from "../supabase";
+import { useRouter } from "vue-router";
 
 export default {
   name: "signIn",
@@ -64,8 +65,24 @@ export default {
     const email = ref(null);
     const password = ref(null);
     const errorMsg = ref(null);
+    const router = useRouter();
 
-    return { email, password, errorMsg };
+    const signIn = async () => {
+      try {
+        const { error } = await supabase.auth.signIn({
+          email: email.value,
+          password: password.value,
+        });
+        if (error) throw error;
+        router.push({ name: "home" });
+      } catch (error) {
+        errorMsg.value = "Error: Invalid mail or password";
+        setTimeout(() => {
+          errorMsg.value = null;
+        }, 5000);
+      }
+    };
+    return { email, password, errorMsg, signIn };
   },
 };
 </script>

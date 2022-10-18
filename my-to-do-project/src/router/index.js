@@ -18,6 +18,11 @@ const router = createRouter({
       name: "signup",
       component: () => import("../components/SignUp.vue"),
     },
+    {
+      path: "/new-task",
+      name: "new-task",
+      component: () => import("../components/DashboardPage.vue"),
+    },
   ],
 });
 
