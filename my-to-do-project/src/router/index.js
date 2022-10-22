@@ -1,27 +1,34 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/home",
+      path: "/",
       name: "home",
-      component: () => import("../components/DashboardPage.vue"),
+      component: () => import("../views/Home.vue"),
     },
+    {
+      path: "/dashboard",
+      name: "dashboard",
+      component: () => import("../views/DashboardPage.vue"),
+    },
+
     {
       path: "/signin",
       name: "signin",
-      component: () => import("../components/SignIn.vue"),
+      component: () => import("../views/SignIn.vue"),
     },
     {
       path: "/signup",
       name: "signup",
-      component: () => import("../components/SignUp.vue"),
+      component: () => import("../views/SignUp.vue"),
     },
     {
-      path: "/new-task",
-      name: "new-task",
-      component: () => import("../components/DashboardPage.vue"),
+      path: "/create",
+      name: "create",
+      component: () => import("../views/CreateItem.vue"),
     },
   ],
 });

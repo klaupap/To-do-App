@@ -1,45 +1,84 @@
 <template>
-  <header>
-    <nav class="container nav nav-fill">
-      <div style="height: 70px; width: 60px">
-        <router-link to="/home" class="nav-link" aria-current="page"
-          ><img class="img-fluid" src="./icons/mug-white.png" />
-        </router-link>
-      </div>
-
-      <router-link to="/signin" class="nav-link"
-        >Sign In</router-link
+  <nav
+    class="navbar navbar-expand-lg navbar-light p-3"
+    style="background-color: #f5cac3"
+  >
+    <div class="container-fluid">
+      <a title="Doing my best" href="#"
+        ><img
+          class="navbar-brand"
+          src="./icons/mug-white.png"
+          style="height: 60px; width: 50px"
+      /></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
       >
-      <button @click="logout" type="submit" class="nav-link">
-        Sign Out
+        <span class="navbar-toggler-icon"> </span>
       </button>
-      <router-view />
-    </nav>
-  </header>
+
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <router-link to="/" class="nav-link mx-2 active" aria-current="page"
+              >Home
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link  to="/dashboard" class="nav-link mx-2"
+              >My tasks
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link v-if="!user" to="/signin" class="nav-link mx-2"
+              >Sign In</router-link
+            >
+          </li>
+          <button
+            type="button"
+            class="nav-item nav-link mx-2 btn "
+            @click="logout"
+          >
+            Sign Out
+          </button>
+        </ul>
+      </div>
+    </div>
+  </nav>
 </template>
 
 <!-- USER LOGOUT - No funciona. Revisar -->
 
-<!-- Conditional renderings nav links pendent - No funciona. Revisar -->
-
-<script>
-
+<script setup>
 import { supabase } from "../supabase";
 import { useRouter } from "vue-router";
+import { computed } from "vue";
+import { useUserStore } from "../stores/user.js";
+import { storeToRefs } from "pinia";
 
-export default {
-  setup() {
+const userStore = useUserStore();
+const router = useRouter();
 
-    const router = useRouter();
+const user = computed(() => userStore.user);
 
-    const logout = async () => {
-      await supabase.auth.signOut();
-      router.push({ name: "home" });
-    };
-    return { logout };
-  },
+const logout = async () => {
+  userStore.signOut();
+  router.push({ name: "home" });
 };
 </script>
 
-//USER LOGOUT - SUPABASE (PENDIENTE DE COLOCAR) //let { error } = await
-supabase.auth.signOut()
+<style scoped>
+.btn:focus {
+  outline: none;
+  box-shadow: none !important;
+}
+
+.btn {
+  box-shadow: none !important;
+}
+</style>

@@ -1,41 +1,49 @@
 <template>
   <section>
+    <div>
     <NavBar></NavBar>
+    <RouterView />
+  </div>
   </section>
 </template>
 
 <script setup>
 import { onMounted } from "vue";
+import { ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useRouter } from "vue-router";
 import { useUserStore } from "./stores/user.js";
+import { useRouter } from "vue-router";
+import { RouterLink, RouterView } from "vue-router";
 import NavBar from "./components/NavBar.vue";
+import { supabase } from "./supabase";
 
 const router = useRouter();
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
 
-onMounted(async () => {
-  try {
-    await userStore.fetchUser(); // here we call fetch user
-    console.log(user.value);
-    if (!user.value) {
-      console.log("No estás logeado");
-      await userStore.signUp("claudiamurall@gmail.com", "password");
-      console.log(user.value);
-      router.push({ path: "/signin" });
-    } else {
-      console.log("Estás logeado");
-      // continue to dashboard
-      router.push({ path: "/home" });
-    }
-  } catch (e) {
-    console.log(e);
-  }
-});
 
-// PASSWORD RECOVERY - SUPABASE (PENDIENTE DE COLOCAR)
-//let { data, error } = await supabase.auth.api.resetPasswordForEmail(email)
+
+    /*
+const appReady = ref(null);
+
+// check to see if user is already logged in
+const user1 = supabase.auth.user();
+
+// if user does not exist, need to make app ready
+if (!user1) {
+  appReady.value = true;
+
+// if user is logged in, this will fire
+  supabase.auth.onAuthStateChange((_, session) => {
+  store.methods.setUser(session);
+  appReady.value = true;
+})
+
+}
+*/
+
+
+
 </script>
 
 <style>
