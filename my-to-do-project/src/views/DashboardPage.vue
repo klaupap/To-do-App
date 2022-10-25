@@ -1,9 +1,10 @@
 <template>
-  <section class="container rounded-3 border border-5 border-dark my-5 bg-white"
-    style="height: auto">
-
-  <form @submit.prevent="addNewTodo">
-      <h1 class="h1">What's on your todo list?</h1>    
+  <section
+  class="container"
+    style="height: auto"
+  >
+    <form @submit.prevent="addNewTodo">
+      <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 75%)" >What's on your todo list?</h1>
       <div class="row">
         <div class="col-8">
           <input
@@ -13,68 +14,92 @@
             id="inputText"
             v-model="newTodo"
           />
-          <h1>{{newTodo}}</h1>
         </div>
         <div class="col-2">
           <!-- <i onclick="addList()" class=" btn btn-dark rounded-pill fas fa-4x fa-plus-circle "></i> -->
-          <button id="add-btn" type="submit" value="Add to do" class="btn"><i class="bi bi-plus-circle-fill"></i>
-</button>
-
+          <button class="btn btn-primary btn-block mb-4" id="add-btn" type="submit" value="Add to do" >
+            <i class="bi bi-plus-circle-fill"></i>
+          </button>
         </div>
       </div>
-
-
-
-
-    <hr />
-    <div class="row rounded bg-white">
-      <div class="col-12">
-        <ul class="list-group" id="list"></ul>
+      <div>
+        <div class="col-12">
+          <ul class="list-group" id="list"></ul>
+        </div>
       </div>
-    </div>
+    </form>
+    <button class="btn btn-primary btn-block mb-4" @click="removeAllTodos">Remove all</button>
+    <button class="btn btn-primary btn-block mb-4" @click="markAllDone">Mark all done</button>
+    <ul>
+      <li v-for="(todo, index) in todos" :key="todo.id">
+        <h3 :class="{ done: todo.done }" @click="toggleDone(todo)">
+          {{ todo.content }}
 
+        </h3>
 
-</form>
-<ul>
-<li v-for = "todo in todos" :key="todo.id">
-  <h3>{{todo.content}}</h3>
-</li>
-</ul>
-</section>
+        <button class="btn mb-4" @click="removeTodo(index)"><i class="bi bi-trash3"></i>
+</button>
+        <button class="btn mb-4" @click="editTodo()"><i class="bi bi-pencil"></i>
+</button>
+        <hr />
+      </li>
+    </ul>
+  </section>
 </template>
 
+
+
 <script>
+
+// FALTA L'EDIT TASK I QUE EL TASK COMPLETED SIGUI UN INPUT CHECK
+
 
 import { ref, reactive } from "vue";
 
 export default {
-  setup(){
-
-    const newTodo = ref('');
+  setup() {
+    const newTodo = ref("");
     const todos = ref([]);
+    let initialValue = ''
 
-    function addNewTodo(){
+    function addNewTodo() {
       todos.value.push({
         id: Date.now(),
         done: false,
-        content: newTodo.value
-        
+        content: newTodo.value,
       });
+      newTodo.value = "";
     }
+
+    function toggleDone(todo) {
+      todo.done = !todo.done;
+    }
+
+    function removeTodo(index) {
+      todos.value.splice(index, 1);
+    }
+    function markAllDone() {
+      todos.value.forEach((todo) => (todo.done = true));
+    }
+
+    function removeAllTodos(){
+      todos.value = [];
+    }
+
+
+
 
     return {
       todos,
       newTodo,
       addNewTodo,
-    }
-  }
-}
-
-
-
-
-
-
+      toggleDone,
+      removeTodo,
+      markAllDone,
+      removeAllTodos,
+        };
+  },
+};
 
 /*
 let input = document.getElementById("inputText");
@@ -157,8 +182,9 @@ deleteList=(listId)=>{
 </script>
 <style scoped>
 
-#add-btn {
-  font-size: 30px;
-  color: rgb(247, 100, 181);
+
+.done {
+  text-decoration: line-through;
 }
+
 </style>

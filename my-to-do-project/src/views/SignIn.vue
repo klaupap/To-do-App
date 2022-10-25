@@ -1,63 +1,81 @@
 <template>
-  <div class="container-fluid">
-    <div class="row align-items-center">
-      <div class="col-sm-6 p-3 mb-2 text-white d-none d-md-block .has-bg-img">
-        <img class="img-fluid" src="../components/icons/Doing-best.png" />
-      </div>
+  <!-- Section: Design Block -->
 
-      <div class="col align-items-center">
-        <h4 class="text-center">Sign in</h4>
-        <p>Are you ready to do your best?</p>
+  <!-- Mensaje error -->
+  <div id="error-message" v-if="errorMsg">
+    <p>{{ errorMsg }}</p>
+  </div>
 
-        <!-- Mensaje error -->
-        <div id="error-message" v-if="errorMsg">
-            <p>{{ errorMsg }}</p>
-          </div>
+  <section class="background-radial-gradient overflow-hidden">
+    <div class="container px-4 py-4 px-md-5 text-center text-lg-start my-5">
+      <div class="row gx-lg-5 align-items-center mb-5">
+        <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+          <h1
+            class="my-5 display-5 fw-bold ls-tight"
+            style="color: hsl(218, 81%, 95%)"
+          >
+            Are you ready <br />
+            <span style="color: hsl(218, 81%, 75%)">to do your best?</span>
+          </h1>
+          <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
+            Stay ordered.
+            <br />
+            Stay focus.
+          </p>
+        </div>
 
-        <form @submit.prevent="login">
-          <div class="mb-3">
-            <input
-              type="email"
-              required
-              class="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-              placeholder="Email address"
-              v-model="email"
-            />
-          </div>
-          <div class="mb-3">
-            <input
-              type="password"
-              required
-              class="form-control"
-              id="password"
-              placeholder="Password"
-              v-model="password"
-            />
-          </div>
-          <div class="text-center">
-            <!-- Pendiente el sign in-->
-            <button
-              type="submit"
-              class="btn btn-primary"
-              style="background-color: #f28482"
-            >
-              Login
-            </button>
-          </div>
+        <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+          
 
+          <div class="card bg-glass">
+            <div class="card-body px-4 py-5 px-md-5">
+              <form @submit.prevent="login">
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                  <input
+                    type="email"
+                    id="email"
+                    class="form-control"
+                    required
+                    placeholder="Email Address"
+                    v-model="email"
+                  />
+                </div>
 
-          <div class="text-center">
-            <p>
-              Don't have an account?
-              <router-link to="/signup"> Register </router-link>
-            </p>
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                  <input
+                    type="password"
+                    id="password"
+                    class="form-control"
+                    required
+                    placeholder="Password"
+                    v-model="password"
+                  />
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block mb-4">
+                  Sign in
+                </button>
+
+                <!-- Pendiente el sign in-->
+                <!-- Register buttons -->
+                <div class="text-center">
+                  <p>
+                    Don't have an account?
+                    <router-link to="/signup" class="register"> Register </router-link>
+                  </p>
+                </div>
+              </form>
+            </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
+  <!-- Section: Design Block -->
+
 </template>
 
 <script setup>
@@ -85,3 +103,26 @@ const login = async () => {
   }
 };
 </script>
+
+<style scoped>
+.background-radial-gradient {
+  background-color: hsl(218, 41%, 15%);
+  background-image: url("../components/icons/mug.jpeg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+
+}
+
+.bg-glass {
+  background-color: hsla(0, 0%, 100%, 0.9) !important;
+  backdrop-filter: saturate(200%) blur(25px);
+}
+
+.register {
+  text-decoration: none;
+}
+
+
+</style>

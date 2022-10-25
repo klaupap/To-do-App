@@ -1,10 +1,6 @@
 <template>
-  <section>
-    <div>
     <NavBar></NavBar>
     <RouterView />
-  </div>
-  </section>
 </template>
 
 <script setup>
@@ -49,5 +45,10 @@ if (!user1) {
 <style>
 html {
   font-family: "Roboto", sans-serif;
+}
+body,
+html, 
+#app {
+  height: 100%;
 }
 </style>
