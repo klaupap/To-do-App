@@ -18,25 +18,22 @@ const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
 
 
+onMounted(async () => {
+  try {
+    // Call to fetch user
+    await userStore.fetchUser()
+    if (!user.value) {
+      // Not logged user. Redirect them to Home
+      router.push({ name: "home" })
+    } else {
+      // Logged user. Redirect their dashboard
+      router.push({ name: "dashboard" })
+    }
+  } catch (e) {
+    console.log(e)
+  }
+});
 
-    /*
-const appReady = ref(null);
-
-// check to see if user is already logged in
-const user1 = supabase.auth.user();
-
-// if user does not exist, need to make app ready
-if (!user1) {
-  appReady.value = true;
-
-// if user is logged in, this will fire
-  supabase.auth.onAuthStateChange((_, session) => {
-  store.methods.setUser(session);
-  appReady.value = true;
-})
-
-}
-*/
 
 
 

@@ -37,5 +37,9 @@
   background-size: cover;
   height: 100vh;
 }
+.btn{
+ background-color: #82C0CC;
+ border:none;
 
+}
 </style>

@@ -41,3 +41,8 @@ Bootstrap
 Validación con Supabase
 
 
+Tech Stack
+Client: Vue.js, Vite (dev server)
+Router: Vue Router
+Store: Pinia and Pinia Persist for persistent login
+Database as a service: Supabase

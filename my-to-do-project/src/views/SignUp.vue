@@ -1,12 +1,8 @@
 <template>
-  <!-- Mensaje error / falta el CSS -->
-  <div id="error-message" v-if="errorMsg">
-    <p>{{ errorMsg }}</p>
-  </div>
 
   <section class="background-radial-gradient overflow-hidden">
     <div class="container px-4 py-4 px-md-5 text-center text-lg-start my-5">
-      <div class="row gx-lg-5 align-items-center mb-5">
+      <div class="row gx-lg-5 align-items-center mb-5 ">
         <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
           <h1
             class="my-5 display-5 fw-bold ls-tight"
@@ -61,7 +57,17 @@
                     v-model="confirmPassword"
                   />
                 </div>
+                <!-- Mensaje error / falta el CSS -->
+                <div id="error-message" class= "alert text-danger text-center animate__animated animate__swing" v-if="errorMsg" role="alert">
+    <p><i class="bi bi-exclamation-circle"></i>
+      {{ errorMsg }}</p>
+  </div>
+    <!-- Mensaje verificació mail / falta el CSS -->
 
+    <div id="verify-message" class="alert text-success text-center animate__animated animate__bounce" v-if="verifyEmail" role="alert">
+    <p><i class="bi bi-check-circle"></i>
+{{ verifyEmail }}</p>
+  </div>
                 <!-- Submit button -->
                 <button type="submit" class="btn btn-primary btn-block mb-4">
                   Register
@@ -72,17 +78,20 @@
                 <div class="text-center">
                   <p>
                     Already have an account?
-                    <router-link class="signin-btn" to="/signin"> Sign In </router-link>
+                    <router-link class="signin-btn" to="/signin">
+                      Sign In
+                    </router-link>
                   </p>
                 </div>
+
               </form>
+
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <!-- Section: Design Block -->
 </template>
 
 <script setup>
@@ -91,20 +100,26 @@ import { supabase } from "../supabase";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "../stores/user.js";
+import { computed } from 'vue';
 
 const email = ref(null);
 const password = ref(null);
 const confirmPassword = ref(null);
 const errorMsg = ref(null);
 const router = useRouter();
-//const verifyEmail = ref(null);//
+const verifyEmail = ref(null);
 const userStore = useUserStore();
 
 const signup = async () => {
   if (password.value === confirmPassword.value) {
     try {
       await userStore.signUp(email.value, password.value);
-      router.push({ name: "signin" });
+      verifyEmail.value =
+        "Success! To verify your identity, we need you to confirm your email";
+      setTimeout(() => {
+        router.push({ name: "dashboard" });
+        verifyEmail.value = null;
+      }, 10000);
     } catch (error) {
       errorMsg.value = error.message;
       setTimeout(() => {
@@ -116,7 +131,7 @@ const signup = async () => {
   errorMsg.value = "Error: Passwords do not match";
   setTimeout(() => {
     errorMsg.value = null;
-  }, 5000);
+  }, 7000);
 };
 </script>
 
@@ -137,5 +152,12 @@ const signup = async () => {
 
 .signin-btn {
   text-decoration: none;
+  color: #82C0CC;
+}
+
+.btn{
+ background-color: #82C0CC;
+ border:none;
+
 }
 </style>

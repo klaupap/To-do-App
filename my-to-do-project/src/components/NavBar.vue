@@ -25,12 +25,7 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <router-link to="/" class="nav-link mx-2 active" aria-current="page"
-              >Home
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link  to="/dashboard" class="nav-link mx-2"
+            <router-link to="/dashboard" class="nav-link mx-2"
               >My tasks
             </router-link>
           </li>
@@ -39,20 +34,16 @@
               >Sign In</router-link
             >
           </li>
-          <button
-            type="button"
-            class="nav-item nav-link mx-2 btn "
-            @click="logout"
-          >
-            Sign Out
-          </button>
+          <li class="nav-item">
+            <a v-if="user" class="nav-link mx-2" role="button" @click="logout"
+              >Sign Out</a
+            >
+          </li>
         </ul>
       </div>
     </div>
   </nav>
 </template>
-
-<!-- USER LOGOUT - No funciona. Revisar -->
 
 <script setup>
 import { supabase } from "../supabase";
@@ -63,22 +54,21 @@ import { storeToRefs } from "pinia";
 
 const userStore = useUserStore();
 const router = useRouter();
-
-const user = computed(() => userStore.user);
+const { user } = storeToRefs(userStore);
 
 const logout = async () => {
-  userStore.signOut();
-  router.push({ name: "home" });
+  try {
+    await userStore.signOut();
+    await router.push({ name: "home" });
+  } catch (e) {
+    console.log(e);
+  }
 };
 </script>
 
 <style scoped>
-.btn:focus {
-  outline: none;
-  box-shadow: none !important;
-}
-
-.btn {
-  box-shadow: none !important;
+.nav-item:hover {
+  color: yellow;
+  transform: scale(1.1);
 }
 </style>
