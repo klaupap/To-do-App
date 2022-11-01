@@ -17,22 +17,10 @@ export const useTaskStore = defineStore("tasks", {
     },
 
     //CreateTask
-    async createTask(newTask) {
-      try {
-        const { data, error } = await supabase
-          .from("tasks")
-          .insert({
-            user_id: newTask.user_id,
-            title: newTask.title.value,
-            is_complete: newTask.is_complete,
-            inserted_at: newTask.inserted_at,
-          })
-          .select();
-        this.errors = null;
-        if (error) throw error;
-      } catch (error) {
-        this.errors = "Oops! Something went wrong, please try again. ";
-      }
+    async createTask(title, complete, user_id) {
+      const { error } = await supabase
+        .from("tasks")
+        .insert({ title: title, is_complete: complete, user_id: user_id });
     },
     //Edit Task
 
@@ -65,14 +53,10 @@ export const useTaskStore = defineStore("tasks", {
 
     // Remove Task removeTodo
 
-    async deleteTask(id) {
-      try {
-        const { error } = await supabase.from("tasks").delete().eq("id", id);
-        this.errors = null;
-        if (error) throw error;
-      } catch (error) {
-        this.errors = "Error deleting task, please try again. ";
-      }
+    async removeTask(taskId) {
+      const { data, error } = await supabase
+        .from("tasks")
+        .delete()
+        .match({ id: taskId });
     },
-  },
 });

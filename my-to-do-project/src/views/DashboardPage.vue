@@ -65,27 +65,48 @@
   </section>
 </template>
 
-<script>
+<script setup>
 import { onMounted } from "vue";
-import { ref, reactive } from "vue";
 import { supabase } from "../supabase";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
-import { useTaskStore } from "../stores/task.js";
-import { computed } from "vue";
+import { ref } from "vue";
+import { useUserStore } from "../stores/user";
+import { useTaskStore } from "../stores/task";
 
+const title = ref("");
+const complete = ref(false);
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 const taskStore = useTaskStore();
 const { tasks } = storeToRefs(taskStore);
-let todo = reactive(tasks);
 
 
-onMounted(async () => {
-  try {
+const addNewTask = async () => {
+  await taskStore.createTask(title.value, complete.value, user._object.user.id);
+  title.value = "";
+  complete.value = false;
+  await taskStore.fetchTasks();
+};
+const loadTasks = async () => {
+  if (user) {
     await taskStore.fetchTasks();
-  } catch (e) {
-    console.log(e);
   }
-});
+};
+loadTasks();  
+
+//const editTask
+
+//const taskCompleted
+
+const removeEachTask = async (task) => {
+  await taskStore.removeTask(task.id);
+  loadTasks();
+
+};
+
+
+
 
 
 </script>
